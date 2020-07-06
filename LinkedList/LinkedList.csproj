@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B36EB2CF-ECD0-4B8A-A9CA-B0A728D1C7FE}</ProjectGuid>
+    <ProjectGuid>{FA3BCCFA-CD29-4AE4-851A-B484EE4D783B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>LinkedList</RootNamespace>
     <AssemblyName>LinkedList</AssemblyName>
@@ -34,6 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LinkedList.cs" />
+    <Compile Include="Node.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
