@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LinkedList
+namespace Linked_List
 {
-
     public class LinkedList<T> : IEnumerable<T>
     {
         public Node<T> First { get; private set; }
@@ -15,16 +11,16 @@ namespace LinkedList
         public int Count { get; private set; }
 
         public LinkedList()
-        { 
+        {
         }
         public LinkedList(IEnumerable<T> collection)
         {
-            foreach(var current in collection)
+            foreach (var current in collection)
             {
-                if(First == null)
+                if (First == null)
                 {
                     First = new Node<T>(current);
-                    Last = First;                    
+                    Last = First;
                 }
                 else
                 {
@@ -35,7 +31,7 @@ namespace LinkedList
                 }
             }
             Count += collection.Count();
-            
+
         }
 
         public void AddFirst(Node<T> node)
@@ -68,13 +64,21 @@ namespace LinkedList
 
 
         public void AddBefore(Node<T> node, Node<T> newNode)
-        {
-            newNode.Previous = node.Previous;
+        {            
+            if (node.Previous == null)
+            {
+                First = newNode;
+            }
+            else
+            {
+                newNode.Previous = node.Previous;
+                node.Previous.Next = newNode;
+            }
             newNode.Next = node;
-            node.Previous = newNode;
+            node.Previous = newNode;           
             Count++;
         }
-        public Node<T> AddBefore(Node<T> node,T value)
+        public Node<T> AddBefore(Node<T> node, T value)
         {
             var newNode = new Node<T>(value);
             AddBefore(node, newNode);
@@ -83,9 +87,18 @@ namespace LinkedList
 
         public void AddAfter(Node<T> node, Node<T> newNode)
         {
-            newNode.Next = node.Next;
+            if (node.Next == null)
+            {
+                Last = newNode;
+            }
+            else
+            {
+                newNode.Next = node.Next;
+                node.Next.Previous = newNode;
+            }               
             newNode.Previous = node;
             node.Next = newNode;
+
             Count++;
         }
         public Node<T> AddAfter(Node<T> node, T value)
@@ -97,7 +110,7 @@ namespace LinkedList
 
         public bool Contains(T value)
         {
-            for (Node<T> current = First; current.Next != null; current = current.Next)
+            for (Node<T> current = First; current != null; current = current.Next)
             {
                 if (current.Value.Equals(value)) return true;
             }
@@ -106,7 +119,7 @@ namespace LinkedList
 
         public Node<T> Find(T value)
         {
-            for (Node<T> current = First; current.Next != null; current = current.Next)
+            for (Node<T> current = First; current != null; current = current.Next)
             {
                 if (current.Value.Equals(value)) return current;
             }
@@ -114,7 +127,7 @@ namespace LinkedList
         }
         public Node<T> FindLast(T value)
         {
-            for (Node<T> current = Last; current.Previous != null; current = current.Previous)
+            for (Node<T> current = Last; current != null; current = current.Previous)
             {
                 if (current.Value.Equals(value)) return current;
             }
@@ -124,19 +137,34 @@ namespace LinkedList
         public bool Remove(T value)
         {
 
-            for (Node<T> current = First; current.Next != null; current = current.Next)
+            for (Node<T> current = First; current != null; current = current.Next)
             {
                 if (current.Value.Equals(value))
                 {
-                    if (current.Previous != null) current.Previous.Next  = current.Next;
-                    if (current.Next != null) current.Next.Previous =  current.Previous;
+                    if (current.Previous != null)
+                    {
+                        current.Previous.Next = current.Next;
+                    }
+                    else
+                    {
+                        First = current.Next;
+                    }
+                    if (current.Next != null)
+                    {
+                        current.Next.Previous = current.Previous;
+                    }
+                    else
+                    {
+                        Last = current.Previous;
+                    }
+
                     Count--;
                     return true;
                 }
             }
             return false;
         }
-        public bool RemoveFirst(T value)
+        public bool RemoveFirst()
         {
             if (Count == 0)
             {
@@ -145,12 +173,12 @@ namespace LinkedList
             else
             {
                 First = First.Next;
-                if (First != null)  First.Previous = null;
+                if (First != null) First.Previous = null;
                 Count--;
                 return true;
-            }           
+            }
         }
-        public bool RemoveLast(T value)
+        public bool RemoveLast()
         {
             if (Count == 0)
             {
@@ -168,7 +196,7 @@ namespace LinkedList
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            for (Node<T> current = First; current.Next != null;current = current.Next)
+            for (Node<T> current = First; current != null; current = current.Next)
             {
                 yield return current.Value;
             }
@@ -176,7 +204,7 @@ namespace LinkedList
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (Node<T> current = First; current.Next != null; current = current.Next)
+            for (Node<T> current = First; current != null; current = current.Next)
             {
                 yield return current.Value;
             }
