@@ -17,18 +17,7 @@ namespace Linked_List
         {
             foreach (var current in collection)
             {
-                if (First == null)
-                {
-                    First = new Node<T>(current);
-                    Last = First;
-                }
-                else
-                {
-                    var temp = new Node<T>(current);
-                    temp.Previous = Last;
-                    Last.Next = temp;
-                    Last = temp;
-                }
+                AddLast(current);
             }
             Count += collection.Count();
 
@@ -36,10 +25,16 @@ namespace Linked_List
 
         public void AddFirst(Node<T> node)
         {
+            Count++;
+            if (First == null)
+            {
+                First = node;
+                Last = First;
+                return;
+            }
             node.Next = First;
             First.Previous = node;
-            First = node;
-            Count++;
+            First = node;            
         }
         public Node<T> AddFirst(T value)
         {
@@ -50,13 +45,20 @@ namespace Linked_List
 
         public void AddLast(Node<T> node)
         {
+            Count++;
+            if (First == null)
+            {
+                First = node;
+                Last = First;
+                return;
+            }
             node.Previous = Last;
             Last.Next = node;
-            Last = node;
-            Count++;
+            Last = node;           
         }
         public Node<T> AddLast(T value)
         {
+
             var node = new Node<T>(value);
             AddLast(node);
             return node;

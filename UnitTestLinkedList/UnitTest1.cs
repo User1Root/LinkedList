@@ -8,7 +8,6 @@ namespace UnitTestLinkedList
     [TestClass]
     public class LinkedListTest
     {
-        
         [TestMethod]
         public void LinkedListConstructorTest()
         {
